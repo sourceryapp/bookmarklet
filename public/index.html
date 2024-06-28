@@ -17,7 +17,7 @@
 
             <form class="form-signin" autocomplete="off" @submit.prevent="testBookmarklet()">
 
-                <h1 class="h3 mb-3 font-weight-normal">Sourcery Bookmarklet</h1>
+                <h1 class="h3 mb-3 font-weight-normal">Sourcery Bookmarklet Testing Tool</h1>
 
                 <div class="mb-4">
                     <label for="endpoint">Bookmarklet Endpoint</label>
@@ -38,8 +38,45 @@
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Test It!</button>
 
-                <pre><code>{{ code?.testCode }}</code></pre>
-                <pre><code>{{ code?.asLinkMin }}</code></pre>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-lg btn-outline-secondary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    View Code
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Bookmarklet Code</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#code" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Code</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#minified" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Minified</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Link</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div id="code" class="tab-pane fade show active m-3"><pre><code>{{ code?.testCode }}</code></pre></div>
+                                    <div id="minified" class="tab-pane fade m-3"><pre><code>{{ code?.asLinkMin }}</code></pre></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- <pre><code>{{ code?.asLinkMin }}</code></pre> -->
 
             </form>
         </div>
