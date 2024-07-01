@@ -25,7 +25,6 @@ app.get('/api/fake-supabase-edge-function', async (req, res) => {
     let response, data
     let redirect_url = new URL(config.sourcery_request_url);
 
-
     console.log('Request received:', url)
 
     try {
