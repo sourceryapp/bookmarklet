@@ -97,7 +97,8 @@
                         config,
 
                         // Default to dev endpoint
-                        endpoint: config.dev_endpoint,
+                        endpoint: isDev() ? config.dev_endpoint : config.prod_endpoint,
+
                         // Sample Source URL
                         source_url: 'https://www.nytimes.com/2018/06/11/technology/net-neutrality-repeal.html',
 
@@ -155,18 +156,16 @@
 
                 },
                 mounted() {
-                    console.log('Endpoint', this.endpoint)
                     this.updateCode()
-                    console.log('Endpoint', this.endpoint)
-
+                    console.log('Current Endpoint', this.endpoint)
                 }
 
             }).mount('#app')     
             
-            // function isDev(){
-            //     const current_url = new URL(window.location.href)
-            //     return (current_url.hostname == 'localhost' || current_url.hostname == '127.0.0.1')
-            // }
+            function isDev(){
+                const current_url = new URL(window.location.href)
+                return (current_url.hostname == 'localhost' || current_url.hostname == '127.0.0.1')
+            }
     
         </script>
 
