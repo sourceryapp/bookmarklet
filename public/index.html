@@ -40,13 +40,13 @@
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-lg btn-outline-secondary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    View Code
+                    Install Code
                 </button>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content" style="min-height: 450px;">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Bookmarklet Code</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -54,17 +54,22 @@
                             <div class="modal-body">
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item">
-                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#code" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Code</button>
+                                        <button class="nav-link active" id="install-tab" data-bs-toggle="tab" data-bs-target="#install" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Install It!</button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#minified" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Minified</button>
+                                        <button class="nav-link " id="home-tab" data-bs-toggle="tab" data-bs-target="#code" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Source Code</button>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Link</a>
+                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#minified" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Minified Code</button>
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
-                                    <div id="code" class="tab-pane fade show active m-3"><pre><code>{{ code?.testCode }}</code></pre></div>
+                                    <div id="install" class="tab-pane fade show active m-3">
+                                        <p>To install, simply drag the button to your bookmarks bar: </p>
+
+                                        <a :href="code?.asLinkMin" class="btn btn-primary mt-3">Request with Sourcery!</a>
+                                    </div>
+                                    <div id="code" class="tab-pane fade m-3"><pre><code>{{ code?.testCode }}</code></pre></div>
                                     <div id="minified" class="tab-pane fade m-3"><pre><code>{{ code?.asLinkMin }}</code></pre></div>
                                 </div>
                             </div>
