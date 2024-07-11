@@ -35,6 +35,7 @@ app.get('/api/fake-supabase-edge-function', async (req, res) => {
             },
             body: url
         });
+        console.log(response)
         data = await response.json();
 
         // Extract the title from the data

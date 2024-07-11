@@ -20,13 +20,37 @@
                 <h1 class="h3 mb-3 font-weight-normal">Sourcery Bookmarklet Testing Tool</h1>
 
                 <div class="mb-4">
-                    <label for="endpoint">Bookmarklet Endpoint</label>
-                    <select class="form-select" aria-label="Bookmarklet Endpoint" v-model="endpoint" @change="updateCode">
-                        <option :value="config.dev_endpoint" selected>Use Development Server (local)</option>
-                        <option :value="config.prod_endpoint">Use Production Server (Supabase)</option>
-                    </select>
-                    <div class="form-text">{{endpoint}}</div>
+
+
+                <div class="list-group">
+
+
+                    <a href="#" v-for="{ name, description, url} in config.endpoints" @click="updateCode(url)" :class="{'list-group-item':true, 'list-group-item-action':true, 'active':isActive(url)}">
+                        <h5 class="mb-1">Use {{name}}</h5>
+                        <p class="mb-1">{{description}}</p>
+                        <small>{{url}}</small>
+                    </a>
+                    <!-- <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">List group item heading</h5>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                        <p class="mb-1">Some placeholder content in a paragraph.</p>
+                        <small class="text-muted">And some muted small print.</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">List group item heading</h5>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                        <p class="mb-1">Some placeholder content in a paragraph.</p>
+                        <small class="text-muted">And some muted small print.</small>
+                    </a> -->
                 </div>
+
+                    </div>
+        
+
 
                 <div class="mb-4">
 
@@ -104,10 +128,10 @@
                         config,
 
                         // Default to dev endpoint
-                        endpoint: isDev() ? config.dev_endpoint : config.prod_endpoint,
+                        endpoint: config.endpoints.local.url,
 
                         // Sample Source URL
-                        source_url: 'https://www.nytimes.com/2018/06/11/technology/net-neutrality-repeal.html',
+                        source_url: 'https://today.uconn.edu/2020/09/archival-documents-like-magic-thanks-uconn-researchers-new-app/',
 
                         // Bookmarklet Code (Object)
                         code: {}
@@ -130,44 +154,37 @@
                             asString: codeAsString,
 
                             // Code as Link
-                            asLink: `javascript:(${codeAsString})('${config.prod_endpoint}','${window.location.href}')`,
+                            asLink: `javascript:(${codeAsString})('${config.endpoints.prod.url}','${window.location.href}')`,
                             
                             // Code as Minified Link (for production use)
-                            asLinkMin: 'javascript:' + await this.minify(`(${codeAsString})('${config.prod_endpoint}',window.location.href)`),
+                            asLinkMin: 'javascript:' + await this.minify(`(${codeAsString})('${config.endpoints.prod.url}',window.location.href)`),
                             
                             // Code, eval'able for testing
                             testCode: `(${codeAsString})('${this.endpoint}', '${this.source_url}')`
                         }
                     },
-                    async updateCode() {
-                        console.log('updating code')
+                    async updateCode(url) {
+                        this.endpoint = url
+                        localStorage.setItem('endpoint', this.endpoint)
+                        console.log(this.endpoint)
                         this.code = await this.transformBookmarkletCode(bookmarklet_code)
                         console.log(this.code.testCode)
                     },
                     async minify(js) {
-                        // let minified = ''
-                        // try {
-                        //     let response = await fetch('/api/minify', {
-                        //         method: 'POST',
-                        //         headers: {
-                        //             'Content-Type': 'text/plain'
-                        //         },
-                        //         body: js
-                        //     });
-                        //     minified = await response.text();
-                        // } catch (error) {
-                        //     console.error('Error:', error)
-                        // }  
-                        // return minified      
+    
                         let minified = await Terser.minify(js)
                         console.log('Minified:', minified.code)
                         return minified.code
                         
-                    }
+                    },
+                    isActive(endpoint_url) {
+                        return this.endpoint == endpoint_url
+                    },
 
                 },
                 mounted() {
-                    this.updateCode()
+                    this.endpoint = localStorage.getItem('endpoint') || this.config.endpoints.local.url
+                    this.updateCode(this.endpoint)
                     console.log('Current Endpoint', this.endpoint)
                 }
 
